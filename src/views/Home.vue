@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Classical Music App</h1>
+    <h1>Classical Music App - Home</h1>
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: 'Home'
 }
 </script>
-
-<style scoped>
-
-</style>
