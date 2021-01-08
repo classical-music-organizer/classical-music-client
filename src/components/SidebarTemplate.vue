@@ -1,7 +1,7 @@
 <template>
-  <div class='container-fluid h-100'>
+  <div class='container-fluid v-100'>
     <div class='row h-100'>
-      <div class='col-auto p-0'>
+      <div class='col-auto h-100 p-0'>
         <sidebar :links='links' />
       </div>
       <div class='col'>
