@@ -6,8 +6,8 @@ const composer = function(axios, options) {
   this.options = options
 }
 
-composer.prototype.list = async function() {
-  const res = await this.axios.get(routes.composer.list).catch(handleError)
+composer.prototype.list = async function(params) {
+  const res = await this.axios.get(routes.composer.list, {params}).catch(handleError)
 
   return res.data
 }
