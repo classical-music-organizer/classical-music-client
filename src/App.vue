@@ -1,6 +1,12 @@
 <template>
-  <navbar />
-  <router-view/>
+  <div class='container-fluid min-vh-100 d-flex flex-column'>
+    <div class='row'>
+      <navbar />
+    </div>
+    <div class='row flex-grow-1'>
+      <router-view/>
+    </div>
+  </div>
 </template>
 
 <script>
