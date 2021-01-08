@@ -17,6 +17,11 @@ const routes = [
   {
     path: '/composer/:id',
     name: 'composer',
+    component: Composer // TODO: reroute to composerSlug for readability?
+  },
+  {
+    path: '/composer/:id/:slug',
+    name: 'composerSlug',
     component: Composer
   }
 ]
