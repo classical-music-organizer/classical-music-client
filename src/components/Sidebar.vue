@@ -72,13 +72,13 @@ export default {
   color: #8792a2;
 }
 
-.sidebar-nav-item .router-link-active {
-  color: #556cd6;
-  background-color: #f5fbff;
-}
-
 .sidebar-nav-item a:hover {
   color: #2a2f45;
+}
+
+.sidebar-nav-item .router-link-active {
+  color: #556cd6 !important;
+  background-color: #f5fbff;
 }
 
 </style>
