@@ -1,7 +1,8 @@
 <template>
   <span class='tag'>
-    <router-link :to='link'>
-      <slot></slot>
+    <router-link :to='tagLink'>
+      <span v-if='tagName'>{{ tagName }}</span>
+      <slot v-else></slot>
     </router-link>
   </span>
 </template>
@@ -9,7 +10,22 @@
 <script>
 export default {
   name: 'TagLink',
-  props: ['link']
+  props: ['tag', 'link'], // only requires one
+  computed: {
+    // TODO: this is not an appropriate place to generate tag link
+    tagLink() {
+      if (!this.tag) return this.link
+
+      const { id, slug } = this.tag 
+      return `/tag/${id}/${slug}`
+    },
+    tagName() {
+      if (!this.tag) return
+
+      const { name } = this.tag
+      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase() // capitalize tag name
+    }
+  }
 }
 </script>
 
