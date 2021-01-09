@@ -1,6 +1,6 @@
 <template>
   <span class='tag'>
-    <router-link to='/tag/1'>
+    <router-link :to='link'>
       <slot></slot>
     </router-link>
   </span>
