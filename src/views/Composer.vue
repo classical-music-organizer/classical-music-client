@@ -92,7 +92,7 @@ export default {
       try {
         this.composer = await Api.composer.retrieve(id, {populateTags: true})
 
-        const { id, slug } = this.composer
+        const { slug } = this.composer
 
         // redirect the url to use the correct composer slug
         if (this.$route.params.slug != slug) {
