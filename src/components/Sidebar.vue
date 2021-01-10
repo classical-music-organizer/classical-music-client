@@ -68,12 +68,12 @@ export default {
   transition: color .2s ease;
 }
 
-.sidebar-nav-item a:hover {
-  color: #2a2f45;
-}
-
 .sidebar-nav-item a:visited {
   color: #8792a2;
+}
+
+.sidebar-nav-item a:hover {
+  color: #2a2f45;
 }
 
 .sidebar-nav-item .router-link-active {
