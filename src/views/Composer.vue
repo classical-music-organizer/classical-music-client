@@ -59,7 +59,10 @@ export default {
   data() {
     return {
       loaded: false,
-      composer: null
+      composer: null,
+
+      // marks slug-correcting route redirects to prevent reloading the same composer twice
+      slugRedirect: false
     }
   },
   async mounted() {
@@ -69,21 +72,33 @@ export default {
   },
   async beforeRouteUpdate(to) {
     // TODO: if the user clicked on a sidebar composer link, see if we can reuse the composer object already loaded in tags until API responds for faster loading experience; might be worth loading into VueX
-    // TODO: when redirecting to slugified route, use `verifiedSlug` in route metadata to avoid reloading component
+
+    if (this.slugRedirect) {
+      // composer has already been loaded; only the route is changing, so we can unset the flag and return
+      this.slugRedirect = false
+      return
+    }
 
     if (to.name == 'composer' || to.name == 'composerSlug') {
-      // TODO: at some point when updating, we need to make sure slug still equals composer's slug?
       this.retrieveComposer(to.params.id)
     }
   },
   methods: {
-    // retrieves the composer object and sets loaded to true
+    // retrieves the composer object and sets loaded to true; if slug is incorrect, it redirects to corrected url 
     async retrieveComposer(id) {
       this.loaded = false
       this.composer = null
- 
+
       try {
         this.composer = await Api.composer.retrieve(id, {populateTags: true})
+
+        const { slug } = this.composer
+
+        // redirect the url to use the correct composer slug
+        if (this.$route.params.slug != slug) {
+          this.slugRedirect = true // prevent reloading composer in beforeRouteUpdate
+          this.$router.push({ name: 'composerSlug', params: {id, slug}})
+        }
       } catch(err) {
         if (err.code == 404) { // TODO: create strongly typed errors (NotFoundError) and use instanceof
           // TODO: render not found
