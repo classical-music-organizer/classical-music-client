@@ -21,6 +21,24 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper ultricies risus a consequat. Praesent finibus dolor ac ex cursus, eget gravida dolor luctus. Mauris ultrices lectus ut urna convallis congue. Phasellus eu lorem vulputate, consectetur odio id, fermentum tortor. Donec nisi tellus, blandit ac rhoncus nec, consequat id sem. Suspendisse eros erat, ultricies non ante eu, commodo sollicitudin enim. Duis ante dui, molestie nec iaculis in, volutpat a dolor.
 
           Aenean ultrices lect</p>
+      
+      <h3 class='compositions-heading'>Compositions</h3>
+
+      <div class="list-group">
+        <router-link
+          :to='workLink(work)'
+          class='list-group-item list-group-item-action'
+          v-for='work in composer.works.data'
+          v-bind:key='work.id'
+        >
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ work.name }}</h5>
+          </div>
+
+          <!-- TODO: use shortened info from composer object -->
+          <p class="mb-1">The sonatas and partitas for solo violin (BWV 1001–1006) are a set of six works composed by Johann Sebastian Bach....</p>
+        </router-link>
+      </div>
     </div>
 
     <p v-else>Loading</p><!-- TODO: loading spinner -->
@@ -74,6 +92,12 @@ export default {
       } finally {
         this.loaded = true
       }
+    },
+
+    workLink(work) {
+      const { id, slug } = work
+
+      return `/work/${id}/${slug}`
     }
   },
   computed: {
@@ -116,7 +140,7 @@ export default {
 }
 
 .composer-image {
-  margin-top: 12px;
+  margin: 12px 0px 0px 12px;
   float: right;
   max-width: 300px; /* TODO: use breakpoints for different screen sizes? */
 }
