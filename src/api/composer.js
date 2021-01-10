@@ -12,8 +12,8 @@ composer.prototype.list = async function(params) {
   return res.data
 }
 
-composer.prototype.retrieve = async function(id) {
-  const res = await this.axios.get(routes.composer.retrieve(id)).catch(handleError)
+composer.prototype.retrieve = async function(id, params) {
+  const res = await this.axios.get(routes.composer.retrieve(id), {params}).catch(handleError)
 
   return res.data
 }

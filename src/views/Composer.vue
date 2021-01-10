@@ -68,6 +68,7 @@ export default {
     await this.retrieveComposer(id)
   },
   async beforeRouteUpdate(to) {
+    // TODO: if the user clicked on a sidebar composer link, see if we can reuse the composer object already loaded in tags until API responds for faster loading experience; might be worth loading into VueX
     // TODO: when redirecting to slugified route, use `verifiedSlug` in route metadata to avoid reloading component
 
     if (to.name == 'composer' || to.name == 'composerSlug') {
@@ -82,7 +83,7 @@ export default {
       this.composer = null
  
       try {
-        this.composer = await Api.composer.retrieve(id)
+        this.composer = await Api.composer.retrieve(id, {populateTags: true})
       } catch(err) {
         if (err.code == 404) { // TODO: create strongly typed errors (NotFoundError) and use instanceof
           // TODO: render not found
@@ -98,6 +99,18 @@ export default {
       const { id, slug } = work
 
       return `/work/${id}/${slug}`
+    },
+
+    composerLink(composer) {
+      const { id, slug } = composer
+
+      return `/composer/${id}/${slug}`
+    },
+
+    tagLink(tag) {
+      const { id, slug } = tag
+
+      return `/tag/${id}/${slug}`
     }
   },
   computed: {
@@ -105,29 +118,18 @@ export default {
       return 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Johann_Sebastian_Bach.jpg'
     },
     sidebarLinks() {
-      // TODO: return real tag links
-      return [
-        {
-          heading: {text: 'Baroque Composers', link: '/tag/1'},
-          links: [
-            {text: 'Johann Sebastian Bach', link: '/composer/1'},
-            {text: 'Antonio Vivaldi', link: '/composer/2'},
-            {text: 'George Frideric Handel', link: '/composer/3'},
-            {text: 'Claudio Monteverdi', link: '/composer/4'},
-            {text: 'Georg Philipp Telemann', link: '/composer/5'}
-          ]
-        },
-        {
-          heading: {text: 'Accessible Composers', link: '/'},
-          links: [
-            {text: 'Johann Sebastian Bach', link: '/composer/1'},
-            {text: 'Antonio Vivaldi', link: '/composer/2'},
-            {text: 'George Frideric Handel', link: '/composer/3'},
-            {text: 'Claudio Monteverdi', link: '/composer/4'},
-            {text: 'Georg Philipp Telemann', link: '/composer/5'}
-          ]
+      if (!this.composer) return []
+
+      const headingName = tagName => `${tagName} COMPOSERS`
+
+      return this.composer.tags.map(tag => {
+        return {
+          heading: {text: headingName(tag.name), link: this.tagLink(tag)},
+          links: tag.composers.data.map(c => {
+            return {text: c.fullName, link: this.composerLink(c)}
+          })
         }
-      ]
+      })
     }
   }
 }
