@@ -1,18 +1,33 @@
 <template>
   <sidebar-template :links='sidebarLinks'>
-    <div class='work' v-if='loaded'>
-      <h2 class='work-name'>{{ work.name }}</h2>
+    <div class='work container-fluid' v-if='loaded'>
+      <div class='row'>
+        <div class='col'>
+          <h2 class='work-name'>{{ work.name }}</h2>
+          <h5 class='composer-name'>By <router-link :to='composerLink(work.composer)'>{{ work.composer.fullName }}</router-link></h5>
 
-      <div class='tags' v-if='work.tags && work.tags.length > 0'>
-        <tag-link
-          v-for='tag in work.tags'
-          v-bind:key='tag.id'
-          :tag='tag'></tag-link>
+          <div class='tags' v-if='work.tags && work.tags.length > 0'>
+            <tag-link
+              v-for='tag in work.tags'
+              v-bind:key='tag.id'
+              :tag='tag'></tag-link>
+          </div>
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper ultricies risus a consequat. Praesent finibus dolor ac ex cursus, eget gravida dolor luctus. Mauris ultrices lectus ut urna convallis congue. Phasellus eu lorem vulputate, consectetur odio id, fermentum tortor. Donec nisi tellus, blandit ac rhoncus nec, consequat id sem. Suspendisse eros erat, ultricies non ante eu, commodo sollicitudin enim. Duis ante dui, molestie nec iaculis in, volutpat a dolor.
+
+              Aenean ultrices lect</p>
+        </div>
+
+        <div class='col col-auto'>
+          <ul class='movements-list list-group' v-if='work.movements.length > 0'>
+            <li
+              class='list-group-item'
+              v-for='m in work.movements'
+              v-bind:key='m.id'
+            >{{ m.name }}</li>
+          </ul>
+        </div>
       </div>
-
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper ultricies risus a consequat. Praesent finibus dolor ac ex cursus, eget gravida dolor luctus. Mauris ultrices lectus ut urna convallis congue. Phasellus eu lorem vulputate, consectetur odio id, fermentum tortor. Donec nisi tellus, blandit ac rhoncus nec, consequat id sem. Suspendisse eros erat, ultricies non ante eu, commodo sollicitudin enim. Duis ante dui, molestie nec iaculis in, volutpat a dolor.
-
-          Aenean ultrices lect</p>
     </div>
 
     <p v-else>Loading</p><!-- TODO: loading spinner -->
@@ -124,11 +139,22 @@ export default {
 <style scoped>
 
 .work-name {
-  margin-top: 12px;
+  margin: 12px 0px 0px 0px;
+}
+
+.composer-name {
+  margin-bottom: 16px;
 }
 
 .tags {
   margin: 12px 0px 18px 0px;
+}
+
+.movements-list {
+  display: inline-block;
+  min-width: 200px;
+  margin-top: 12px;
+  float: right;
 }
 
 </style>
